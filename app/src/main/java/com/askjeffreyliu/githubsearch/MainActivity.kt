@@ -2,8 +2,6 @@ package com.askjeffreyliu.githubsearch
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,16 +10,11 @@ import com.askjeffreyliu.githubsearch.adapter.ItemAdapter
 import com.askjeffreyliu.githubsearch.model.QueryResult
 import com.askjeffreyliu.githubsearch.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mAdapter: ItemAdapter
     private lateinit var viewModel: MainViewModel
-
-    private val debonce_time_milli = 500L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,38 +46,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUserInput() {
-        editText.addTextChangedListener(object : TextWatcher {
-            private var searchFor = ""
-
-            override fun afterTextChanged(s: Editable) {
-                val searchText = s.toString().trim()
-                if (searchText == searchFor)
-                    return
-
-                searchFor = searchText
-
-                // Start a coroutine
-                GlobalScope.launch {
-                    delay(debonce_time_milli)
-                    if (searchText != searchFor) {
-                        return@launch
-                    }
-
-                    viewModel.search(s.toString())
-                }
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-            }
-        })
+        button.setOnClickListener {
+            val searchText = editText.text.toString().trim()
+            viewModel.search(searchText)
+        }
     }
 }

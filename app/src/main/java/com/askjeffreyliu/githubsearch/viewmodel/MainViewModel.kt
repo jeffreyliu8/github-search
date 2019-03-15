@@ -16,7 +16,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun search(query: String) {
         if (TextUtils.isEmpty(query)) {
-            liveData.postValue(null)
+            liveData.value = null
         } else {
             carAiRepository.search(query, "stars", "desc", liveData)
         }
