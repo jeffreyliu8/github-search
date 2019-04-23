@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Module
 class GithubWebModule {
     @Provides
-    fun provideFBWebService(): GithubWebService {
+    fun provideWebService(): GithubWebService {
         val httpClient = OkHttpClient.Builder()
         if (BuildConfig.DEBUG) {
             val logging = HttpLoggingInterceptor()

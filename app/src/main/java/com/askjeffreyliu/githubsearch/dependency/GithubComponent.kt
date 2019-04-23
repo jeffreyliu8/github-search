@@ -7,5 +7,5 @@ import dagger.Component
 
 @Component(modules = [GithubWebModule::class])
 interface GithubComponent {
-    fun inject(fbWebRepository: MainRepository)
+    fun inject(repository: MainRepository)
 }

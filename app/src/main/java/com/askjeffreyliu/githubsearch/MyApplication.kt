@@ -9,22 +9,14 @@ import android.app.Application
 
 
 class MyApplication : Application() {
-    // firebase dagger componennt
-    private var _component: GithubComponent? = null
-    var component: GithubComponent
-        get() = _component!!
-        set(value) {
-            _component = value
-        }
-
-
+    lateinit var component: GithubComponent
 
     override fun onCreate() {
         super.onCreate()
-        initFBComponent()
+        initDaggerComponent()
     }
 
-    private fun initFBComponent() {
+    private fun initDaggerComponent() {
         component = DaggerGithubComponent.builder()
             .githubWebModule(GithubWebModule())
             .build()
