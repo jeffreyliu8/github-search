@@ -1,4 +1,4 @@
-package ai.autox.autoxzero.dependency
+package com.askjeffreyliu.githubsearch.dependency
 
 
 import com.askjeffreyliu.githubsearch.BuildConfig

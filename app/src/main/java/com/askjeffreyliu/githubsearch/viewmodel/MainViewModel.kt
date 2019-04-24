@@ -10,7 +10,7 @@ import com.askjeffreyliu.githubsearch.repository.MainRepository
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val carAiRepository = MainRepository(application)
+    private val repository = MainRepository(application)
 
     private val liveData = MutableLiveData<QueryResult>()
 
@@ -18,7 +18,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (TextUtils.isEmpty(query)) {
             liveData.value = null
         } else {
-            carAiRepository.search(query, "stars", "desc", liveData)
+            repository.search(query, "stars", "desc", liveData)
         }
     }
 

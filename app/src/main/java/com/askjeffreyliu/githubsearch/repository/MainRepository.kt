@@ -22,7 +22,7 @@ class MainRepository(application: Application) {
     fun search(query: String, sort: String?, order: String?, liveData: MutableLiveData<QueryResult>) {
         webService.searchRepos(query, sort, order).enqueue(object : Callback<QueryResult> {
             override fun onFailure(call: Call<QueryResult>, t: Throwable) {
-                println("${t.localizedMessage}")
+                println(t.localizedMessage)
             }
 
             override fun onResponse(call: Call<QueryResult>, response: Response<QueryResult>) {
