@@ -5,9 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.askjeffreyliu.githubsearch.MyApplication
 import com.askjeffreyliu.githubsearch.endpoint.GithubWebService
 import com.askjeffreyliu.githubsearch.model.QueryResult
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 class MainRepository(application: Application) {
@@ -19,19 +16,11 @@ class MainRepository(application: Application) {
         app.component.inject(this)
     }
 
-    fun search(query: String, sort: String?, order: String?, liveData: MutableLiveData<QueryResult>) {
-        webService.searchRepos(query, sort, order).enqueue(object : Callback<QueryResult> {
-            override fun onFailure(call: Call<QueryResult>, t: Throwable) {
-                println(t.localizedMessage)
-            }
-
-            override fun onResponse(call: Call<QueryResult>, response: Response<QueryResult>) {
-                if (response.isSuccessful) {
-                    liveData.value = response.body()
-                } else {
-                    println("Error code: " + response.code())
-                }
-            }
-        })
+    suspend fun search(query: String, sort: String?, order: String?, liveData: MutableLiveData<QueryResult>) {
+        try {
+            liveData.value = webService.searchRepos(query, sort, order)
+        } catch (e: Exception) {
+            println(e.localizedMessage)
+        }
     }
 }

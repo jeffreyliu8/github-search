@@ -2,14 +2,14 @@ package com.askjeffreyliu.githubsearch.endpoint
 
 
 import com.askjeffreyliu.githubsearch.model.QueryResult
-import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface GithubWebService {
     @GET("/search/repositories")
-    fun searchRepos(
+    suspend fun searchRepos(
         @Query("q") query: String,
         @Query("sort") sort: String?,
         @Query("order") order: String?
-    ): Call<QueryResult>
+    ): QueryResult
 }
