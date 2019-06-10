@@ -1,13 +1,13 @@
 package com.askjeffreyliu.githubsearch
 
 import android.app.Application
-import com.askjeffreyliu.githubsearch.dependency.DaggerGithubComponent
-import com.askjeffreyliu.githubsearch.dependency.GithubComponent
-import com.askjeffreyliu.githubsearch.dependency.GithubWebModule
+import com.askjeffreyliu.githubsearch.dependency.DaggerWebComponent
+import com.askjeffreyliu.githubsearch.dependency.WebComponent
+import com.askjeffreyliu.githubsearch.dependency.WebModule
 
 
 class MyApplication : Application() {
-    lateinit var component: GithubComponent
+    lateinit var component: WebComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -15,8 +15,8 @@ class MyApplication : Application() {
     }
 
     private fun initDaggerComponent() {
-        component = DaggerGithubComponent.builder()
-            .githubWebModule(GithubWebModule())
+        component = DaggerWebComponent.builder()
+            .webModule(WebModule())
             .build()
     }
 }

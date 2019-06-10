@@ -5,7 +5,7 @@ import com.askjeffreyliu.githubsearch.repository.MainRepository
 
 import dagger.Component
 
-@Component(modules = [GithubWebModule::class])
-interface GithubComponent {
+@Component(modules = [WebModule::class])
+interface WebComponent {
     fun inject(repository: MainRepository)
 }
