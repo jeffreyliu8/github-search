@@ -35,7 +35,7 @@ class WebModule {
 
     @Provides
     @Singleton
-    fun provideMainRepo(): MainRepository {
-       return MainRepository()
+    fun provideMainRepo(webEndpoint: WebEndpoint): MainRepository {
+        return MainRepository(webEndpoint)
     }
 }

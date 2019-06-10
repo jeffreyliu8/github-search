@@ -1,8 +1,9 @@
 package com.askjeffreyliu.githubsearch.viewmodel
 
+import android.app.Application
 import android.text.TextUtils
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.askjeffreyliu.githubsearch.MyApplication
 import com.askjeffreyliu.githubsearch.model.QueryResult
@@ -11,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class MainViewModel : ViewModel() {
+class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     @Inject
     lateinit var repository: MainRepository
@@ -19,11 +20,11 @@ class MainViewModel : ViewModel() {
     private val liveData = MutableLiveData<QueryResult>()
 
     init {
-        MyApplication.instance.webComponent.inject(this)
+        (application as MyApplication).component.inject(this)
     }
 
     fun search(query: String) {
-        viewModelScope.launch  {
+        viewModelScope.launch {
             if (TextUtils.isEmpty(query)) {
                 liveData.value = null
             } else {

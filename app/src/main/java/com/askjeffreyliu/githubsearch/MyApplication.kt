@@ -6,22 +6,15 @@ import com.askjeffreyliu.githubsearch.dependency.WebComponent
 import com.askjeffreyliu.githubsearch.dependency.WebModule
 
 
-class MyApplication : Application() {
-    lateinit var webComponent: WebComponent
+class MyApplication : Application(), ComponentProvider {
 
-    companion object {
-        lateinit var instance: MyApplication private set
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-        initDaggerComponent()
-    }
-
-    private fun initDaggerComponent() {
-        webComponent = DaggerWebComponent.builder()
+    override val component: WebComponent by lazy {
+        DaggerWebComponent.builder()
             .webModule(WebModule())
             .build()
     }
+}
+
+interface ComponentProvider {
+    val component: WebComponent
 }
