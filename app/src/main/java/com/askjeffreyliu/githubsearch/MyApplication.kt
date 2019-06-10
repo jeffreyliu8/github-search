@@ -7,15 +7,20 @@ import com.askjeffreyliu.githubsearch.dependency.WebModule
 
 
 class MyApplication : Application() {
-    lateinit var component: WebComponent
+    lateinit var webComponent: WebComponent
+
+    companion object {
+        lateinit var instance: MyApplication private set
+    }
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         initDaggerComponent()
     }
 
     private fun initDaggerComponent() {
-        component = DaggerWebComponent.builder()
+        webComponent = DaggerWebComponent.builder()
             .webModule(WebModule())
             .build()
     }

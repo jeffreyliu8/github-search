@@ -1,8 +1,7 @@
 package com.askjeffreyliu.githubsearch
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var mAdapter: ItemAdapter
+    private lateinit var adapter: ItemAdapter
     private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,17 +29,17 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Access the RecyclerView Adapter
-        mAdapter = ItemAdapter()
-        recyclerView.adapter = mAdapter
+        adapter = ItemAdapter()
+        recyclerView.adapter = adapter
     }
 
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(this, Observer<QueryResult> {
             if (it != null) {
-                mAdapter.updateList(it.items)
+                adapter.updateList(it.items)
             } else {
-                mAdapter.updateList(null)
+                adapter.updateList(null)
             }
         })
     }

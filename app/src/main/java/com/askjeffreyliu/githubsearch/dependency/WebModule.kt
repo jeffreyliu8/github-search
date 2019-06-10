@@ -2,15 +2,18 @@ package com.askjeffreyliu.githubsearch.dependency
 
 
 import com.askjeffreyliu.githubsearch.endpoint.WebEndpoint
+import com.askjeffreyliu.githubsearch.repository.MainRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 @Module
 class WebModule {
     @Provides
+    @Singleton
     fun provideWebService(): WebEndpoint {
         val httpClient = OkHttpClient.Builder()
 //        if (BuildConfig.DEBUG) {
@@ -28,5 +31,11 @@ class WebModule {
             .client(httpClient.build())
             .build()
             .create(WebEndpoint::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMainRepo(): MainRepository {
+       return MainRepository()
     }
 }
