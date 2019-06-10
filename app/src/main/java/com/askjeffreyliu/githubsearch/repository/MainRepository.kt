@@ -1,5 +1,6 @@
 package com.askjeffreyliu.githubsearch.repository
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.askjeffreyliu.githubsearch.MyApplication
 import com.askjeffreyliu.githubsearch.endpoint.WebEndpoint
@@ -18,7 +19,7 @@ class MainRepository {
         try {
             liveData.value = webEndpoint.searchRepos(query, sort, order)
         } catch (e: Exception) {
-            println(e.localizedMessage)
+            Log.e("MainRepository", e.localizedMessage)
         }
     }
 }
