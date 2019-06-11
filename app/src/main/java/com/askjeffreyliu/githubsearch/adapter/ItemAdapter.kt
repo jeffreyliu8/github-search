@@ -31,10 +31,10 @@ class ItemAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.nameTextView.text = mList!![position].full_name
+        holder.nameTextView.text = mList!![position].fullName
         holder.descriptionTextView.text = mList!![position].description
-        holder.starTextView.text = "★" + mList!![position].stargazers_count
-        Picasso.get().load(mList!![position].owner.avatar_url).into(holder.avatarImageView)
+        holder.starTextView.text = "★" + mList!![position].stargazersCount
+        Picasso.get().load(mList!![position].owner.avatarUrl).into(holder.avatarImageView)
     }
 }
 

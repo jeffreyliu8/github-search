@@ -1,8 +1,12 @@
 package com.askjeffreyliu.githubsearch.model
 
+import com.google.gson.annotations.SerializedName
+
 data class QueryItem(
-    val full_name: String,
+    @SerializedName("full_name")
+    val fullName: String,
     val description: String? = null,
     val owner: Owner,
-    val stargazers_count: Int
+    @SerializedName("stargazers_count")
+    val stargazersCount: Int
 )

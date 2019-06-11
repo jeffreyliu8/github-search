@@ -1,5 +1,8 @@
 package com.askjeffreyliu.githubsearch.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Owner(
-    val avatar_url: String? = null
+    @SerializedName("avatar_url")
+    val avatarUrl: String? = null
 )

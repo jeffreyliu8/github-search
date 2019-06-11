@@ -1,8 +1,12 @@
 package com.askjeffreyliu.githubsearch.model
 
+import com.google.gson.annotations.SerializedName
+
 
 data class QueryResult(
-    val total_count: Int ,
-    val incomplete_results: Boolean,
+    @SerializedName("total_count")
+    val totalCount: Int,
+    @SerializedName("incompleteResults")
+    val incompleteResults: Boolean,
     val items: List<QueryItem>? = null
 )
