@@ -1,13 +1,15 @@
 package com.askjeffreyliu.githubsearch
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.askjeffreyliu.githubsearch.adapter.ItemAdapter
-import com.askjeffreyliu.githubsearch.model.QueryResult
+import com.askjeffreyliu.githubsearch.model.ResourceState
 import com.askjeffreyliu.githubsearch.viewmodel.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,11 +37,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getLiveData().observe(this, Observer<QueryResult> {
-            if (it != null) {
-                adapter.updateList(it.items)
-            } else {
-                adapter.updateList(null)
+        viewModel.getLiveData().observe(this, Observer { resource ->
+            resource.let {
+                when (it.state) {
+                    ResourceState.LOADING -> progressBar.visibility = View.VISIBLE
+                    else -> {
+                        progressBar.visibility = View.GONE
+                    }
+                }
+                it.data?.let { result ->
+                    adapter.updateList(result.items)
+                }
+                it.message?.let { msg ->
+                    Snackbar.make(progressBar, msg, Snackbar.LENGTH_LONG).show()
+                }
             }
         })
     }

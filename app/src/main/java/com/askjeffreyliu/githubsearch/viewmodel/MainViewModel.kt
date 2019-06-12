@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.askjeffreyliu.githubsearch.MyApplication
 import com.askjeffreyliu.githubsearch.model.QueryResult
+import com.askjeffreyliu.githubsearch.model.Resource
 import com.askjeffreyliu.githubsearch.repository.MainRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +18,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     @Inject
     lateinit var repository: MainRepository
 
-    private val liveData = MutableLiveData<QueryResult>()
+    private val liveData = MutableLiveData<Resource<QueryResult>>()
 
     init {
         (application as MyApplication).component.inject(this)
