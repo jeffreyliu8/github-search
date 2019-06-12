@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.askjeffreyliu.githubsearch.MyApplication
+import com.askjeffreyliu.githubsearch.extension.setSuccess
 import com.askjeffreyliu.githubsearch.model.QueryResult
 import com.askjeffreyliu.githubsearch.model.Resource
 import com.askjeffreyliu.githubsearch.repository.MainRepository
@@ -27,7 +28,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun search(query: String) {
         viewModelScope.launch {
             if (TextUtils.isEmpty(query)) {
-                liveData.value = null
+                liveData.setSuccess(null)
             } else {
                 repository.search(query, "stars", "desc", liveData)
             }
