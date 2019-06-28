@@ -1,18 +1,18 @@
 package com.askjeffreyliu.githubsearch
 
 import android.app.Application
-import com.askjeffreyliu.githubsearch.dependency.DaggerWebComponent
-import com.askjeffreyliu.githubsearch.dependency.WebComponent
-import com.askjeffreyliu.githubsearch.dependency.WebModule
+import com.askjeffreyliu.githubsearch.dagger.DaggerAppComponent
+import com.askjeffreyliu.githubsearch.dagger.AppComponent
+import com.askjeffreyliu.githubsearch.dagger.AppModule
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger.addLogAdapter
 
 
 class MyApplication : Application(), ComponentProvider {
 
-    override val component: WebComponent by lazy {
-        DaggerWebComponent.builder()
-            .webModule(WebModule())
+    override val component: AppComponent by lazy {
+        DaggerAppComponent.builder()
+            .appModule(AppModule(this))
             .build()
     }
 
@@ -24,5 +24,5 @@ class MyApplication : Application(), ComponentProvider {
 }
 
 interface ComponentProvider {
-    val component: WebComponent
+    val component: AppComponent
 }

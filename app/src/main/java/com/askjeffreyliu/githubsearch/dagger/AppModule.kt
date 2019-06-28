@@ -1,6 +1,7 @@
-package com.askjeffreyliu.githubsearch.dependency
+package com.askjeffreyliu.githubsearch.dagger
 
 
+import android.app.Application
 import com.askjeffreyliu.githubsearch.endpoint.WebEndpoint
 import com.askjeffreyliu.githubsearch.repository.MainRepository
 import dagger.Module
@@ -11,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class WebModule {
+class AppModule (private val application: Application){
     @Provides
     @Singleton
     fun provideWebService(): WebEndpoint {
