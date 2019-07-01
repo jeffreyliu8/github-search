@@ -10,6 +10,7 @@ import com.askjeffreyliu.githubsearch.adapter.ItemAdapter
 import com.askjeffreyliu.githubsearch.model.ResourceState
 import com.askjeffreyliu.githubsearch.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.orhanobut.logger.Logger
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // Access the RecyclerView Adapter
-        adapter = ItemAdapter()
+        adapter = ItemAdapter {
+            Logger.d(it.fullName)
+        }
         recyclerView.adapter = adapter
     }
 
