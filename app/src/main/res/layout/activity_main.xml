@@ -69,6 +69,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line" />
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        tools:listitem="@layout/list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
