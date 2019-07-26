@@ -24,9 +24,6 @@ jobs:
           name: Run Tests
           command: ./gradlew lint test
       - run:
-          name: Run UnitTest
-          command: ./gradlew testDemoDebugUnitTest
-      - run:
           name: Setup emulator
           command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
       - run:
