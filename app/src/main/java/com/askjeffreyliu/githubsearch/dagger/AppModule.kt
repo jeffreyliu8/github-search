@@ -1,18 +1,18 @@
 package com.askjeffreyliu.githubsearch.dagger
 
-
-import android.app.Application
 import com.askjeffreyliu.githubsearch.endpoint.WebEndpoint
-import com.askjeffreyliu.githubsearch.repository.MainRepository
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class AppModule (private val application: Application){
+@InstallIn(ApplicationComponent::class)
+object AppModule {
     @Provides
     @Singleton
     fun provideWebService(): WebEndpoint {
@@ -32,11 +32,5 @@ class AppModule (private val application: Application){
             .client(httpClient.build())
             .build()
             .create(WebEndpoint::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideMainRepo(webEndpoint: WebEndpoint): MainRepository {
-        return MainRepository(webEndpoint)
     }
 }

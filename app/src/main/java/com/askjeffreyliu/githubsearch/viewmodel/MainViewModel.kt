@@ -1,39 +1,31 @@
 package com.askjeffreyliu.githubsearch.viewmodel
 
-import android.app.Application
 import android.text.TextUtils
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.askjeffreyliu.githubsearch.MyApplication
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import com.askjeffreyliu.githubsearch.extension.setSuccess
 import com.askjeffreyliu.githubsearch.model.QueryResult
 import com.askjeffreyliu.githubsearch.model.Resource
 import com.askjeffreyliu.githubsearch.repository.MainRepository
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel @ViewModelInject constructor(
+    private val repository: MainRepository
+) : ViewModel() {
 
-    @Inject
-    lateinit var repository: MainRepository
+    private val _liveData = MutableLiveData<Resource<QueryResult>>()
 
-    private val liveData = MutableLiveData<Resource<QueryResult>>()
-
-    init {
-        (application as MyApplication).component.inject(this)
-    }
+    val liveData: LiveData<Resource<QueryResult>>
+        get() = _liveData
 
     fun search(query: String) {
         viewModelScope.launch {
             if (TextUtils.isEmpty(query)) {
-                liveData.setSuccess(null)
+                _liveData.setSuccess(null)
             } else {
-                repository.search(query, "stars", "desc", liveData)
+                repository.search(query, "stars", "desc", _liveData)
             }
         }
     }
-
-    fun getLiveData() = liveData
 }

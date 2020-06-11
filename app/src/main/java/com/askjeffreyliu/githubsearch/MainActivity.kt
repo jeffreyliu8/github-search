@@ -2,21 +2,24 @@ package com.askjeffreyliu.githubsearch
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.askjeffreyliu.githubsearch.adapter.ItemAdapter
 import com.askjeffreyliu.githubsearch.model.ResourceState
 import com.askjeffreyliu.githubsearch.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.orhanobut.logger.Logger
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: ItemAdapter
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getLiveData().observe(this, Observer { resource ->
+        viewModel.liveData.observe(this, Observer { resource ->
             resource.let {
                 when (it.state) {
                     ResourceState.LOADING -> progressBar.visibility = View.VISIBLE
