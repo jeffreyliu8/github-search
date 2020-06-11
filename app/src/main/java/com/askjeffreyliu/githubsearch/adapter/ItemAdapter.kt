@@ -21,7 +21,9 @@ class ItemAdapter(private val listener: (QueryItem) -> Unit) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false))
+        return MyViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -31,7 +33,7 @@ class ItemAdapter(private val listener: (QueryItem) -> Unit) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) =
         holder.bind(mList!![position], listener)
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(item: QueryItem, listener: (QueryItem) -> Unit) = with(itemView) {
             nameTextView.text = item.fullName
             descriptionTextView.text = item.description
