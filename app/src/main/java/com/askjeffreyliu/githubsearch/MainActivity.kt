@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.askjeffreyliu.githubsearch.adapter.ItemAdapter
 import com.askjeffreyliu.githubsearch.databinding.ActivityMainBinding
-import com.askjeffreyliu.githubsearch.model.ResourceState
+import com.askjeffreyliu.githubsearch.other.Status
 import com.askjeffreyliu.githubsearch.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.orhanobut.logger.Logger
@@ -45,19 +44,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        viewModel.liveData.observe(this, Observer { resource ->
-            resource.let {
-                when (it.state) {
-                    ResourceState.LOADING -> binding.progressBar.visibility = View.VISIBLE
-                    else -> {
-                        binding.progressBar.visibility = View.GONE
+        viewModel.liveData.observe(this, { event ->
+            val resource = event.peekContent()
+            when (resource.status) {
+                Status.LOADING -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    adapter.updateList(resource.data?.items)
+                }
+                Status.SUCCESS -> {
+                    binding.progressBar.visibility = View.GONE
+                    adapter.updateList(resource.data?.items)
+                }
+                else -> {
+                    binding.progressBar.visibility = View.GONE
+                    val content = event.getContentIfNotHandled()
+                    content?.message?.let { msg ->
+                        Snackbar.make(binding.progressBar, msg, Snackbar.LENGTH_LONG).show()
                     }
-                }
-                it.data?.let { result ->
-                    adapter.updateList(result.items)
-                }
-                it.message?.let { msg ->
-                    Snackbar.make(binding.progressBar, msg, Snackbar.LENGTH_LONG).show()
                 }
             }
         })

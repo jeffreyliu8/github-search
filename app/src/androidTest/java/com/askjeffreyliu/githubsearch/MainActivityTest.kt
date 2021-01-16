@@ -78,7 +78,7 @@ class MainActivityTest {
 
         val textView = onView(
             allOf(
-                withId(R.id.nameTextView), withText("square/retrofit"),
+                withId(R.id.nameTextView), withText("square/okhttp"),
                 childAtPosition(
                     childAtPosition(
                         IsInstanceOf.instanceOf(android.widget.FrameLayout::class.java),
@@ -89,7 +89,7 @@ class MainActivityTest {
                 isDisplayed()
             )
         )
-        textView.check(matches(withText("square/retrofit")))
+        textView.check(matches(withText("square/okhttp")))
     }
 
     private fun childAtPosition(
