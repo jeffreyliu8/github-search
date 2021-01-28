@@ -1,7 +1,6 @@
 package com.askjeffreyliu.githubsearch.viewmodel
 
 import android.text.TextUtils
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.askjeffreyliu.githubsearch.extension.setLoading
 import com.askjeffreyliu.githubsearch.extension.setSuccess
@@ -9,10 +8,12 @@ import com.askjeffreyliu.githubsearch.model.QueryResult
 import com.askjeffreyliu.githubsearch.other.Event
 import com.askjeffreyliu.githubsearch.other.Resource
 import com.askjeffreyliu.githubsearch.repository.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class MainViewModel @ViewModelInject constructor(
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val repository: MainRepository
 ) : ViewModel() {
 
