@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.askjeffreyliu.githubsearch.databinding.ListItemBinding
 import com.askjeffreyliu.githubsearch.model.QueryItem
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 
 
 class ItemAdapter(private val listener: (QueryItem) -> Unit) :
@@ -36,8 +36,8 @@ class ItemAdapter(private val listener: (QueryItem) -> Unit) :
             binding.nameTextView.text = item.fullName
             binding.descriptionTextView.text = item.description
             binding.starTextView.text = "★" + item.stargazersCount
-            Picasso.get().load(item.owner.avatarUrl).into(binding.avatarImageView)
-
+            //Picasso.get().load(item.owner.avatarUrl).into(binding.avatarImageView)
+            Glide.with(this).load(item.owner.avatarUrl).into(binding.avatarImageView)
             setOnClickListener {
                 listener(item)
             }
