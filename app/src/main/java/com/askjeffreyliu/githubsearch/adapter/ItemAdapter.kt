@@ -1,5 +1,5 @@
 package com.askjeffreyliu.githubsearch.adapter
-
+/*
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -44,3 +44,4 @@ class ItemAdapter(private val listener: (QueryItem) -> Unit) :
         }
     }
 }
+*/

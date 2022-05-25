@@ -8,7 +8,7 @@ import com.askjeffreyliu.githubsearch.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class MainViewModel @Inject constructor(
             )
         )
     )
-    val queryResultFlow: StateFlow<Resource<QueryResult>> = _queryResultFlow
+    val queryResultFlow = _queryResultFlow.asStateFlow()
 
     fun search(query: String) {
         viewModelScope.launch(IO) {
