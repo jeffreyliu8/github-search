@@ -177,7 +177,7 @@ workflows:
           name: android-test-<<matrix.system-image>>
           filters:
             branches:
-              only: main # Commits to main branch
+              only: master # Commits to main branch
 #      - benchmarks-emulator
 #      - benchmarks-ftl
       - lint-test
@@ -190,7 +190,7 @@ workflows:
 #            - benchmarks-ftl
           filters:
             branches:
-              only: main # Commits to main branch
+              only: master # Commits to main branch
 
 #version: 2
 #jobs:
