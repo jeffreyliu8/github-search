@@ -27,31 +27,63 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
-
-  lint-test:
-    executor:
-      name: android/android-machine
-      resource-class: xlarge
-    steps:
-      - checkout
-      - android/restore-gradle-cache
-      - android/restore-build-cache
       - android/run-tests:
           test-command: ./gradlew lint test
-          #./gradlew :app:assembleDebug
-         # ./gradlew :app:assembleDebugAndroidTest
-      - android/save-gradle-cache
-      - android/save-build-cache
-      - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/linttest/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/linttest/ \;
-          when: always
-      - store_test_results:
-          path: ~/test-results
-      - store_artifacts:
-          path: ~/test-results/linttest
+      - android/run-tests:
+          test-command: ./gradlew :app:assembleDebug
+      - android/run-tests:
+          test-command: ./gradlew :app:assembleDebugAndroidTest
+#  lint-test:
+#    executor:
+#      name: android/android-machine
+#      resource-class: xlarge
+#    steps:
+#      - checkout
+#      - android/restore-gradle-cache
+#      - android/restore-build-cache
+#      - android/run-tests:
+#          test-command: ./gradlew lint test
+#          #./gradlew :app:assembleDebug
+#         # ./gradlew :app:assembleDebugAndroidTest
+#      - android/save-gradle-cache
+#      - android/save-build-cache
+#      - run:
+#          name: Save test results
+#          command: |
+#            mkdir -p ~/test-results/linttest/
+#            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/linttest/ \;
+#          when: always
+#      - store_test_results:
+#          path: ~/test-results
+#      - store_artifacts:
+#          path: ~/test-results/linttest
+#
+#  debug-test:
+#    executor:
+#      name: android/android-machine
+#      resource-class: xlarge
+#    steps:
+#      - checkout
+#      - android/restore-gradle-cache
+#      - android/restore-build-cache
+#      - android/run-tests:
+#          test-command: ./gradlew :app:assembleDebug
+#      - android/save-gradle-cache
+#      - android/save-build-cache
+#
+#  debugandroid-test:
+#    executor:
+#      name: android/android-machine
+#      resource-class: xlarge
+#    steps:
+#      - checkout
+#      - android/restore-gradle-cache
+#      - android/restore-build-cache
+#      - android/run-tests:
+#          test-command: ./gradlew :app:assembleDebugAndroidTest
+#      - android/save-gradle-cache
+#      - android/save-build-cache
+
 
   android-test:
     parameters:
@@ -157,10 +189,11 @@ workflows:
   test-and-build:
     jobs:
       - unit-test
-      - android/run-ui-tests:
-          filters:
-            branches:
-              ignore: main # regular commits
+      - android/run-ui-tests
+#      - android/run-ui-tests:
+#          filters:
+#            branches:
+#              ignore: main # regular commits
       - android-test:
           matrix:
             alias: android-test-all
@@ -180,12 +213,12 @@ workflows:
               only: master # Commits to main branch
 #      - benchmarks-emulator
 #      - benchmarks-ftl
-      - lint-test
+#      - lint-test
       - release-build:
           requires:
             - unit-test
             - android-test-all
-            - lint-test
+#            - lint-test
 #            - benchmarks-emulator
 #            - benchmarks-ftl
           filters:
