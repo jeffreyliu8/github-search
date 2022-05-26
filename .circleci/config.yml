@@ -175,9 +175,9 @@ workflows:
                 - system-images;android-24;google_apis;x86
                 - system-images;android-23;google_apis;x86
           name: android-test-<<matrix.system-image>>
-#          filters:
-#            branches:
-#              only: main # Commits to main branch
+          filters:
+            branches:
+              only: main # Commits to main branch
 #      - benchmarks-emulator
 #      - benchmarks-ftl
       - lint-test
@@ -188,9 +188,9 @@ workflows:
             - lint-test
 #            - benchmarks-emulator
 #            - benchmarks-ftl
-#          filters:
-#            branches:
-#              only: main # Commits to main branch
+          filters:
+            branches:
+              only: main # Commits to main branch
 
 #version: 2
 #jobs:
