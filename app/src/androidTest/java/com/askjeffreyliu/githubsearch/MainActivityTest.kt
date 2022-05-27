@@ -2,7 +2,11 @@ package com.askjeffreyliu.githubsearch
 
 
 import androidx.compose.ui.test.junit4.createComposeRule
-import com.askjeffreyliu.githubsearch.ui.component.SearchBar
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import com.askjeffreyliu.githubsearch.model.QueryResult
+import com.askjeffreyliu.githubsearch.other.Resource
+import com.askjeffreyliu.githubsearch.ui.component.GithubSearchUI
 import com.askjeffreyliu.githubsearch.ui.theme.MyApplicationxxxTheme
 import org.junit.Rule
 import org.junit.Test
@@ -15,16 +19,25 @@ class MainActivityTest {
 
     @Test
     fun myTest() {
-        // Start the app
+        val input = Resource.success(
+            QueryResult(
+                totalCount = 0,
+                incompleteResults = false,
+                items = emptyList()
+            )
+        )
+
         composeTestRule.setContent {
             MyApplicationxxxTheme {
-                SearchBar(onSelected = {
-
-                })
+                GithubSearchUI(
+                    input,
+                    onSearch = {
+                        println(it)
+                    })
             }
         }
 
-//        composeTestRule.onNodeWithText("Continue").performClick()
+        composeTestRule.onNodeWithText("Search").performClick()
 //
 //        composeTestRule.onNodeWithText("Welcome").assertIsDisplayed()
     }

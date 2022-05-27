@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,45 +28,51 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.askjeffreyliu.githubsearch.extension.exhaustive
 import com.askjeffreyliu.githubsearch.model.QueryItem
+import com.askjeffreyliu.githubsearch.model.QueryResult
+import com.askjeffreyliu.githubsearch.other.Resource
 import com.askjeffreyliu.githubsearch.other.Status
-import com.askjeffreyliu.githubsearch.viewmodel.MainViewModel
 
 @Composable
 fun GithubSearchUI(
-    viewModel: MainViewModel,
+    resourceResult: Resource<QueryResult>,
     onSearch: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 //        val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
-
+    var searchBarText by rememberSaveable { mutableStateOf("") }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        SearchBar(onSelected = {
-            onSearch(it)
-        })
+        SearchBar(
+            onSubmit = {
+                onSearch(it)
+            },
+            defaultText = searchBarText,
+            onTextChanged = {
+                searchBarText = it
+            }
+        )
 
-        val result by viewModel.queryResultFlow.collectAsState()
-        when (result.status) {
+        when (resourceResult.status) {
             Status.LOADING -> {
                 CircularProgressIndicator(modifier = Modifier.padding(16.dp))
             }
             Status.SUCCESS -> {
-                result.data?.items?.let {
+                resourceResult.data?.items?.let {
                     SearchResultList(it)
                 } ?: kotlin.run {
                     SearchResultList(emptyList())
                 }
             }
             else -> {
-                result.message?.let { msg ->
+                resourceResult.message?.let { msg ->
                     LaunchedEffect(msg) {
                         println("jeff error is $msg")
                         snackBarHostState.showSnackbar(msg)
                     }
                 }
-                result.data?.items?.let {
+                resourceResult.data?.items?.let {
                     SearchResultList(it)
                 } ?: kotlin.run {
                     SearchResultList(emptyList())
@@ -83,14 +90,16 @@ fun GithubSearchUI(
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    onSelected: (String) -> Unit,
+    defaultText: String,
+    onSubmit: (String) -> Unit,
+    onTextChanged: (String) -> Unit,
 ) {
-    var name by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf(defaultText) }
     val focusManager = LocalFocusManager.current
 
     TextField(
         keyboardActions = KeyboardActions(onDone = {
-            onSelected(name)
+            onSubmit(name)
             focusManager.clearFocus()
         }),
         keyboardOptions = KeyboardOptions.Default.copy(
@@ -100,11 +109,12 @@ fun SearchBar(
         value = name,
         onValueChange = {
             name = it
+            onTextChanged(it)
         },
         trailingIcon = {
             TextButton(
                 onClick = {
-                    onSelected(name)
+                    onSubmit(name)
                     focusManager.clearFocus()
                 }) {
                 Text(stringResource(com.askjeffreyliu.githubsearch.R.string.search))

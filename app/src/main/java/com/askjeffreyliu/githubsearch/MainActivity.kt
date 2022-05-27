@@ -23,15 +23,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
+            val resourceResult by viewModel.queryResultFlow.collectAsState()
             MyApplicationxxxTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    GithubSearchUI(viewModel, onSearch = {
+                    GithubSearchUI(resourceResult, onSearch = {
                         viewModel.search(it.trim())
                     })
                 }
@@ -44,9 +44,15 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun DefaultPreview() {
         MyApplicationxxxTheme {
-            SearchBar(onSelected = {
-                println(it)
-            })
+            SearchBar(
+                onSubmit = {
+                    println(it)
+                },
+                defaultText = "",
+                onTextChanged = {
+                    println(it)
+                }
+            )
         }
     }
 }
