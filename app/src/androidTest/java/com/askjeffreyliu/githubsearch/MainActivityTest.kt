@@ -37,7 +37,7 @@ class MainActivityTest {
             }
         }
 
-        composeTestRule.onNodeWithText("Search1").performClick()
+        composeTestRule.onNodeWithText("Search").performClick()
 //
 //        composeTestRule.onNodeWithText("Welcome").assertIsDisplayed()
     }
