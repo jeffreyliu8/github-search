@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -87,4 +87,9 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.1.0")
 
     implementation 'com.orhanobut:logger:2.2.0'
+}
+
+// hilt: Allow references to generated code
+kapt {
+    correctErrorTypes true
 }
