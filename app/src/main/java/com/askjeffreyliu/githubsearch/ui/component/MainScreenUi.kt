@@ -202,12 +202,12 @@ fun ComposeListItemRightSide(title: String, description: String?, star: Int) {
             )
         }
         description?.let {
-            Divider(
-                color = Color.Black,
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxSize()
                     .width(1.dp)
-                    .padding(vertical = 4.dp)
+                    .padding(vertical = 4.dp),
+                color = Color.Black
             )
             Text(text = description)
         }
