@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.askjeffreyliu.githubsearch.ui.component.GithubSearchUI
 import com.askjeffreyliu.githubsearch.ui.component.SearchBar
 import com.askjeffreyliu.githubsearch.viewmodel.MainViewModel
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val resourceResult by viewModel.queryResultFlow.collectAsState()
+            val resourceResult by viewModel.queryResultFlow.collectAsStateWithLifecycle()
             MyApplicationxxxTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
