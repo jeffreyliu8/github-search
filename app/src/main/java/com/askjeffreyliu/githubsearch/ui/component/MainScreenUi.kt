@@ -26,21 +26,26 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.askjeffreyliu.githubsearch.extension.exhaustive
 import com.askjeffreyliu.githubsearch.model.QueryItem
-import com.askjeffreyliu.githubsearch.model.QueryResult
-import com.askjeffreyliu.githubsearch.other.Resource
-import com.askjeffreyliu.githubsearch.other.Status
+import com.askjeffreyliu.githubsearch.viewmodel.MainUiState
 
 @Composable
 fun GithubSearchUI(
-    resourceResult: Resource<QueryResult>,
+    uiState: MainUiState,
     onSearch: (String) -> Unit,
+    onErrorMsgShown: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-//        val scope = rememberCoroutineScope()
     val snackBarHostState = remember { SnackbarHostState() }
     var searchBarText by rememberSaveable { mutableStateOf("") }
+
+    LaunchedEffect(uiState.errorMsg) {
+        if (!uiState.errorMsg.isNullOrBlank()) {
+            snackBarHostState.showSnackbar(uiState.errorMsg)
+            onErrorMsgShown()
+        }
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -53,32 +58,14 @@ fun GithubSearchUI(
                 searchBarText = it
             }
         )
-
-        when (resourceResult.status) {
-            Status.LOADING -> {
-                CircularProgressIndicator(modifier = Modifier.padding(16.dp))
-            }
-            Status.SUCCESS -> {
-                resourceResult.data?.items?.let {
-                    SearchResultList(it)
-                } ?: kotlin.run {
-                    SearchResultList(emptyList())
-                }
-            }
-            else -> {
-                resourceResult.message?.let { msg ->
-                    LaunchedEffect(msg) {
-                        println("jeff error is $msg")
-                        snackBarHostState.showSnackbar(msg)
-                    }
-                }
-                resourceResult.data?.items?.let {
-                    SearchResultList(it)
-                } ?: kotlin.run {
-                    SearchResultList(emptyList())
-                }
-            }
-        }.exhaustive
+        if (uiState.isLoading) {
+            CircularProgressIndicator(modifier = Modifier.padding(16.dp))
+        }
+        uiState.queryResult?.items?.let {
+            SearchResultList(it)
+        } ?: run {
+            SearchResultList(emptyList())
+        }
     }
     SnackbarHost(
         hostState = snackBarHostState,
@@ -87,7 +74,6 @@ fun GithubSearchUI(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
