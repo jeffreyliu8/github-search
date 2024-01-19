@@ -52,7 +52,7 @@ class ExampleInstrumentedTest {
 
         viewModel.search("square")
         delay(12000)
-        assertEquals(Status.SUCCESS, viewModel.queryResultFlow.value.status)
-        assertNotEquals(0, viewModel.queryResultFlow.value.data?.totalCount)
+        assertNotNull(viewModel.uiState.value.queryResult)
+        assertNotEquals(0, viewModel.uiState.value.queryResult?.totalCount)
     }
 }
